@@ -28,10 +28,5 @@ router.get('/profile', (req,res) => {
   res.render('profile', {user:req.session.user})
 })
 
-router.get('/restore',estaLogueado, (req,res )=> {
-  res.render('restore')
-})
-
-
 
 export default router;

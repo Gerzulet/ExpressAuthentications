@@ -8,6 +8,8 @@ import handlebars from "express-handlebars";
 import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
 import path from 'path'
+import passport from 'passport'
+import initializePassport from  "./config/passport.config.js";
 const app = express();
 
 // Server config
@@ -29,7 +31,9 @@ app.use(
     saveUninitialized: false,
   })
 );
-
+initializePassport(); 
+app.use(passport.initialize())
+app.use(passport.session())
 mongoose.set('strictQuery', false)
 mongoose.connect("mongodb+srv://CoderGermancho:coderBackend2023@codercluster.dzpfie2.mongodb.net/?retryWrites=true&w=majority" )
   .then(() => console.log("Connected to MongoDB"))
@@ -43,7 +47,6 @@ app.set('views', `${__dirname}/views`);
 
 app.use("/", viewsRoutes);
 app.use("/session", sessionRoutes);
-console.log(__dirname)
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.listen(8080, () => console.log("Server running on port 8080"))
